@@ -1,7 +1,6 @@
 package com.example.hriday_kondru_assignment;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void onVideoItemClick(int position) {
-        Toast.makeText(this, "clicked "+position, Toast.LENGTH_SHORT).show();
         VideoFragment videoFragment = VideoFragment.newInstance(position);
 
         // Replace the current fragment with the VideoFragment

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -59,6 +61,47 @@ public class VideoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video, container, false);
         playerView = view.findViewById(R.id.player_view);
+        OnSwipeTouchListener swipeTouchListener = new OnSwipeTouchListener(this.getContext()) {
+            @Override
+            public void onSwipeUp() {
+                // Handle upward swipe event
+                // Play the next video or perform any other action
+                if (position < sharedViewModel.getVideoList().size() - 1) {
+                    position++;
+                    initializePlayer();
+                    if (position == sharedViewModel.getVideoList().size() - 1){
+                        int currentPage = sharedViewModel.getCurrentPage();
+                        currentPage++;
+                        sharedViewModel.setCurrentPage(currentPage);
+                        String apiUrl = "https://internship-service.onrender.com/videos?page=" + sharedViewModel.getCurrentPage();
+                        FetchVideosTask fetchVideosTask = new FetchVideosTask(apiUrl, null, sharedViewModel);
+                        fetchVideosTask.execute();
+                    }
+                }
+            }
+
+            @Override
+            public void onSwipeDown() {
+                // Handle downward swipe event
+                // Play the previous video or perform any other action
+                if (position > 0) {
+                    position--;
+
+                    initializePlayer();
+                }
+            }
+            private void animateSwipeUp() {
+                // Apply swipe up animation to your video player view
+                Animation swipeUpAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.swipe_up_animation);
+                playerView.startAnimation(swipeUpAnimation);
+            }
+            private void animateSwipeDown() {
+                // Apply swipe down animation to your video player view
+                Animation swipeDownAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.swipe_down_animation);
+                playerView.startAnimation(swipeDownAnimation);
+            }
+        };
+        playerView.setOnTouchListener(swipeTouchListener);
         return view;
     }
 
@@ -66,7 +109,6 @@ public class VideoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        video = sharedViewModel.getVideoList().get(position);
         initializePlayer();
     }
 
@@ -77,7 +119,7 @@ public class VideoFragment extends Fragment {
     }
 
     private void initializePlayer() {
-        //player = new SimpleExoPlayer.Builder(requireContext()).build();
+        video = sharedViewModel.getVideoList().get(position);
         int appNameStringRes = R.string.app_name;
         TrackSelector trackSelectorDef = new DefaultTrackSelector();
         player = ExoPlayerFactory.newSimpleInstance(this.getContext(), trackSelectorDef); //creating a player instance

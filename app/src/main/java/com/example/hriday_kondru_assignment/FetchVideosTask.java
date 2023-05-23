@@ -1,7 +1,6 @@
 package com.example.hriday_kondru_assignment;
 
 import android.os.AsyncTask;
-import android.util.MutableBoolean;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,20 +17,18 @@ import java.util.List;
 public class FetchVideosTask extends AsyncTask<Void, Void, List<Video>> {
     private String apiUrl;
     private VideoAdapter adapter;
-    private List<Video> videoList;
-    private MutableBoolean isFetchingData;
+    private SharedViewModel sharedViewModel;
 
-    public FetchVideosTask(String apiUrl, VideoAdapter adapter, List<Video> videoList, MutableBoolean isFetchingData){
-        this.videoList = videoList;
+    public FetchVideosTask(String apiUrl, VideoAdapter adapter, SharedViewModel sharedViewModel){
         this.adapter = adapter;
         this.apiUrl = apiUrl;
-        this.isFetchingData=isFetchingData;
+        this.sharedViewModel = sharedViewModel;
     }
 
     @Override
     protected List<Video> doInBackground(Void... voids) {
         // Perform network operation to fetch video data
-        isFetchingData.value = true;
+        sharedViewModel.postIsFetchingData(true);
         List<Video> videos = new ArrayList<>();
 
         try {
@@ -71,9 +68,13 @@ public class FetchVideosTask extends AsyncTask<Void, Void, List<Video>> {
     @Override
     protected void onPostExecute(List<Video> videos) {
         // Update UI with the fetched videos
+        List<Video> videoList = sharedViewModel.getVideoList();
         videoList.addAll(videos);
-        adapter.notifyDataSetChanged();
-        isFetchingData.value=false;
+        sharedViewModel.postVideoList(videoList);
+        if(adapter != null){
+            adapter.notifyDataSetChanged();
+        }
+        sharedViewModel.postIsFetchingData(false);
     }
 
     private List<Video> parseVideoData(String json) {

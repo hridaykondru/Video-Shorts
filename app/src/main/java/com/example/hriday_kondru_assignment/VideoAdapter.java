@@ -39,7 +39,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 // Handle thumbnail click event
-                ((MainActivity) v.getContext()).onVideoItemClick(holder.getAdapterPosition());
+                ((MainActivity)v.getContext()).onVideoItemClick(holder.getAdapterPosition());
             }
         });
     }

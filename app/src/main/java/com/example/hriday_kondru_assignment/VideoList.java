@@ -12,8 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 public class VideoList extends Fragment {
 
     private RecyclerView recyclerView;
@@ -46,9 +44,6 @@ public class VideoList extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        sharedViewModel.setVideoList(new ArrayList<>());
-        sharedViewModel.setCurrentPage(0);
-        sharedViewModel.setIsFetchingData(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         adapter = new VideoAdapter(sharedViewModel.getVideoList());
         recyclerView.setAdapter(adapter);

@@ -7,8 +7,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
     private VideoList videoListFragment;
@@ -19,9 +17,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
-        sharedViewModel.setVideoList(new ArrayList<>());
-        sharedViewModel.setCurrentPage(0);
-        sharedViewModel.setIsFetchingData(false);
+//        sharedViewModel.setVideoList(new ArrayList<>());
+//        sharedViewModel.setCurrentPage(0);
+//        sharedViewModel.setIsFetchingData(false);
         videoListFragment = VideoList.newInstance();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

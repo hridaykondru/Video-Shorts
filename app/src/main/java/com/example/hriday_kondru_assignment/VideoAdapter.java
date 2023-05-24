@@ -34,8 +34,23 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         imageLoadTask.execute();
         // Bind video data to ViewHolder views
         holder.titleTextView.setText(video.getVideoText());
+        holder.descriptionTextView.setText(video.getVideoDescription());
         // Set OnClickListener on the thumbnail image view
         holder.thumbnailImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle thumbnail click event
+                ((MainActivity)v.getContext()).onVideoItemClick(holder.getAdapterPosition());
+            }
+        });
+        holder.titleTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle thumbnail click event
+                ((MainActivity)v.getContext()).onVideoItemClick(holder.getAdapterPosition());
+            }
+        });
+        holder.descriptionTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Handle thumbnail click event
@@ -53,11 +68,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
         public ImageView thumbnailImageView;
         public TextView titleTextView;
+        public TextView descriptionTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             thumbnailImageView = itemView.findViewById(R.id.thumbnailImageView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
+            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             // Initialize other views in your video item layout here
         }
     }

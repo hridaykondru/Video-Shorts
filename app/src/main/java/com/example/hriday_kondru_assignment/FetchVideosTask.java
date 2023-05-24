@@ -90,8 +90,9 @@ public class FetchVideosTask extends AsyncTask<Void, Void, List<Video>> {
                 String videoTitle = videoSubmissionJson.getString("title");
                 String videoThumbnailUrl = videoSubmissionJson.getString("thumbnail");
                 String mediaUrl = videoSubmissionJson.getString("mediaUrl");
+                String description = videoSubmissionJson.getString("description");
                 // Create a Video object with the parsed data
-                Video video = new Video(videoId, videoTitle, videoThumbnailUrl, mediaUrl);
+                Video video = new Video(videoId, videoTitle, videoThumbnailUrl, mediaUrl, description);
                 videos.add(video);
             }
         } catch (JSONException e) {

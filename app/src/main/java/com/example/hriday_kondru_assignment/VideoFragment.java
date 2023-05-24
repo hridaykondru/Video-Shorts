@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,10 +63,13 @@ public class VideoFragment extends Fragment {
             @Override
             public void onSwipeUp() {
                 // Handle upward swipe event
-                // Play the next video or perform any other action
+                // Play the next video
                 if (position < sharedViewModel.getVideoList().size() - 1) {
                     position++;
+                    releasePlayer();
                     initializePlayer();
+                    // Reached end of page
+                    // Fetch new page
                     if (position == sharedViewModel.getVideoList().size() - 1){
                         int currentPage = sharedViewModel.getCurrentPage();
                         currentPage++;
@@ -83,22 +84,12 @@ public class VideoFragment extends Fragment {
             @Override
             public void onSwipeDown() {
                 // Handle downward swipe event
-                // Play the previous video or perform any other action
+                // Play the previous video
                 if (position > 0) {
                     position--;
-
+                    releasePlayer();
                     initializePlayer();
                 }
-            }
-            private void animateSwipeUp() {
-                // Apply swipe up animation to your video player view
-                Animation swipeUpAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.swipe_up_animation);
-                playerView.startAnimation(swipeUpAnimation);
-            }
-            private void animateSwipeDown() {
-                // Apply swipe down animation to your video player view
-                Animation swipeDownAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.swipe_down_animation);
-                playerView.startAnimation(swipeDownAnimation);
             }
         };
         playerView.setOnTouchListener(swipeTouchListener);

@@ -3,12 +3,14 @@ package com.example.hriday_kondru_assignment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SharedViewModel extends ViewModel {
-    private MutableLiveData<List<Video>> videoList = new MutableLiveData<>();
-    private MutableLiveData<Integer> currentPage = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isFetchingData = new MutableLiveData<>();
+    private MutableLiveData<List<Video>> videoList = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<Integer> currentPage = new MutableLiveData<>(0);
+    private MutableLiveData<Boolean> isFetchingData = new MutableLiveData<>(false);
+
     public void setVideoList(List<Video> data) {
         videoList.setValue(data);
     }

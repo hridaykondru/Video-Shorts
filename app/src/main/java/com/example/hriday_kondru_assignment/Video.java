@@ -5,22 +5,27 @@ public class Video {
     private String title;
     private String thumbnailUrl;
     private String mediaUrl;
-    public Video(String id, String title, String thumbnailUrl, String mediaUrl) {
+    private String description;
+    public Video(String id, String title, String thumbnailUrl, String mediaUrl, String description) {
         this.id = id;
         this.title = title;
         this.thumbnailUrl = thumbnailUrl;
         this.mediaUrl = mediaUrl;
+        this.description = description;
     }
     public String getThumbnailUrl() {
+
         return this.thumbnailUrl;
     }
     public String getVideoUrl() {
         return this.mediaUrl;
     }
     public String getVideoText() {
+
         return this.title;
     }
-    // Getters and setters (if needed)
+    public String getVideoDescription() {
 
-    // Other methods and fields specific to your Video class
+        return this.description;
+    }
 }
